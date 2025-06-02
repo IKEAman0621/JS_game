@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Trusting",
+    "startingReputation": 5,
+    "reputationGainModifier": 1.5,
+    "reputationLossModifier": 0.5,
+    "notes": "Gains rep quickly, but forgives easily"
+  },
+  {
+    "name": "Skeptical",
+    "startingReputation": -5,
+    "reputationGainModifier": 0.5,
+    "reputationLossModifier": 1.5,
+    "notes": "Hard to impress, reacts strongly to insults"
+  },
+  {
+    "name": "Neutral",
+    "startingReputation": 0,
+    "reputationGainModifier": 1.0,
+    "reputationLossModifier": 1.0,
+    "notes": "Baseline for comparison"
+  },
+  {
+    "name": "Resentful",
+    "startingReputation": -10,
+    "reputationGainModifier": 0.75,
+    "reputationLossModifier": 2.0,
+    "notes": "Slow to warm, quick to hold grudges"
+  },
+  {
+    "name": "Forgiving",
+    "startingReputation": 0,
+    "reputationGainModifier": 1.0,
+    "reputationLossModifier": 0.25,
+    "notes": "Hard to lose reputation once earned"
+  },
+  {
+    "name": "Cold",
+    "startingReputation": 0,
+    "reputationGainModifier": 0.25,
+    "reputationLossModifier": 0.25,
+    "notes": "Slow to change, little emotional reaction"
+  },
+  {
+    "name": "Volatile",
+    "startingReputation": 0,
+    "reputationGainModifier": 2.0,
+    "reputationLossModifier": 2.0,
+    "notes": "Reputation swings wildly up or down"
+  },
+  {
+    "name": "Prideful",
+    "startingReputation": 3,
+    "reputationGainModifier": 1.0,
+    "reputationLossModifier": 2.0,
+    "notes": "Gains rep normally but hates losing face"
+  },
+  {
+    "name": "Indifferent",
+    "startingReputation": 0,
+    "reputationGainModifier": 0.5,
+    "reputationLossModifier": 0.5,
+    "notes": "Reputation changes very slowly in either direction"
+  },
+  {
+    "name": "Paranoid",
+    "startingReputation": -7,
+    "reputationGainModifier": 0.5,
+    "reputationLossModifier": 3.0,
+    "notes": "Expects betrayal, punishes harshly"
+  },
+  {
+    "name": "Gracious",
+    "startingReputation": 7,
+    "reputationGainModifier": 1.25,
+    "reputationLossModifier": 0.75,
+    "notes": "Generous in trust, but can be disappointed"
+  },
+  {
+    "name": "Stubborn",
+    "startingReputation": -3,
+    "reputationGainModifier": 0.1,
+    "reputationLossModifier": 1.5,
+    "notes": "Almost impossible to earn favor, easily loses it"
+  }
+]

@@ -9,9 +9,11 @@ class Game{
         this.player = new Player(this);
         this.world = new World(this);
 
-
         Canvas.initialize_canvas();
+    }
 
+    start(){
+        
         Text.get_prompt("a1").then(result =>{
             console.log(result); // ["Prompt 1 text...", "Prompt 2 text..."]
 
@@ -25,10 +27,6 @@ class Game{
                 Text.add_choice(result[i].text, result[i].type)
             }
         })
-
-    }
-
-    start(){
 
     }
 }
@@ -99,14 +97,23 @@ class Reputation{
 class World{
 
     constructor(game){
-
+        this.encounters = [];
     }
-}
 
-class Zone{
+    createEncounter(generation="random", name = null, type = null){
+        switch (generation){
+            case "random":
+                //randomly select what type
+            break;
 
-    constructor(world){
-        this.type = "";
+            case "monster":
+                return new Monster(this, type);
+            break;
+
+            case "npc":
+                return new Npc(this, name, type);
+            break;
+        }
     }
 }
 
@@ -119,15 +126,80 @@ class Encounter{
 
 class Npc{
 
-    constructor(encounter){
-        this.name = ""; //Make random name generator.
-        this.type = ""; //Make some Npc types, e.g merchants, warriors, refugees, etc.
+    constructor(encounter, name = null, type = null){
+        if (!name){
+            this.name = ""; //Make random name generator.
+        }
+        
+        if (!type){
+            this.type = ""; //Make some Npc types, e.g merchants, warriors, refugees, etc.
+        }
+
+        this.temperament = ""; //How fast/slow the player loses/gains rep.
         
         this.level = 1;
         this.strength = 1;
+        this.Reputation = this.get_reputation(this.temperament, "startingReputation")
         
-        this.temperament = ""; //How fast/slow the player loses/gains rep.
         this.inventory = new Inventory(this);
+    }
+
+
+    //Helper function to access any specific value of any given temperament.
+    //(startingReputation, reputationGainModifier, reputationLossModifier)
+    get_reputation(temperament, value="all"){
+        fetch('JSON/temperaments.json')
+        .then(response => response.json())
+        .then(temperaments =>{
+
+            const temperamentData = temperaments[temperament]
+
+            if(!temperamentData) {
+                throw new Error(`temperament "${temperament}" not found`);
+            }
+
+            console.log(temperamentData.notes)
+
+            switch(value){
+                case "all":
+                    return [temperamentData.startingReputation, temperamentData.reputationGainModifier, temperamentData.reputationLossModifier];
+                break;
+
+                case "startingReputation":
+                    return temperamentData.startingReputation;
+                break;
+
+                case "reputationGainModifier":
+                    return temperamentData.reputationGainModifier;
+                break;
+
+                case "reputationLossModifier":
+                    return temperamentData.reputationLossModifier;
+                break;
+            }
+        })
+
+        .catch(error => {
+        console.error('Error loading JSON:', error);
+        return null;
+        });
+    }
+
+    create_name(){
+        let firstNameList = [];
+        let lastNameList = [];
+        let nicknameList = [];
+
+        //randomly generate from here.
+    }
+}
+
+class Monster{
+
+    constructor(encounter, type = null){
+        if(!type){
+            this.type = "";
+        }
     }
 }
 
@@ -242,7 +314,7 @@ class Text {
                 choice.addEventListener("keydown", (event) => {
 
                     if (event.key === "Enter") {
-                        alert(`You entered: ${input.value}`);
+
                     }
                 });
             break;
@@ -259,7 +331,7 @@ class Text {
 
     static async write(text1, text2){
         await typeWriter(text1, prompt1);
-        typeWriter(text2, prompt2, 50);
+        typeWriter(text2, prompt2);
 
         function typeWriter(text, textElement, delay = 40) {
             return new Promise((resolve) => {
@@ -292,34 +364,62 @@ class Text {
 
     static get_prompt(name) {
         return fetch('JSON/prompt.json')
-            .then(response => response.json())
-            .then(prompts => {
-                const promptData = prompts[name];
-                if (!promptData) {
-                    throw new Error(`Prompt "${name}" not found`);
-                }
-                return [promptData.prompt1, promptData.prompt2];
-            })
-            .catch(error => {
-            console.error('Error loading JSON:', error);
-            return null;
+        .then(response => response.json())
+        .then(prompts => {
+
+            const promptData = prompts[name];
+
+            if (!promptData) {
+                throw new Error(`Prompt "${name}" not found`);
+            }
+
+            return [promptData.prompt1, promptData.prompt2];
+        })
+
+        .catch(error => {
+        console.error('Error loading JSON:', error);
+        return null;
         });
     }
 
     static get_choices(name) {
         return fetch('JSON/choice.json')
-            .then(response => response.json())
-            .then(choices => {
-                const choiceData = choices[name];
-                if (!choiceData) {
-                    throw new Error(`Prompt "${name}" not found`);
-                }
-                return [choiceData.choice1, choiceData.choice2];
-            })
-            .catch(error => {
+        .then(response => response.json())
+        .then(choices => {
+            
+            const choiceData = choices[name];
+
+            if (!choiceData) {
+                throw new Error(`Choice "${name}" not found`);
+            }
+
+            return [choiceData.choice1, choiceData.choice2];
+        })
+
+        .catch(error => {
+        console.error('Error loading JSON:', error);
+        return null;
+        });
+    }
+
+    static get_consequences(name){
+        return fetch('JSON/consequences.json')
+        .then(response => response.json())
+        .then(consequences => {
+
+            const consequenceData = consequences[name];
+
+            if(!consequenceData) {
+                throw new Error(`Consequence "${name}" not found`);
+            }
+
+            return [consequenceData.consequence1, consequenceData.consequence2];
+        })
+
+        .catch(error =>{
             console.error('Error loading JSON:', error);
             return null;
-        });
+        })
     }
 }
 

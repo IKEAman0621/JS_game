@@ -19,13 +19,17 @@ li{
     border: 1px var(--c1) solid;
     padding: 2.5%;
 
+    background-color: var(--c4);
+
     input{
         width: 95%;
+        padding: 0.5em;
+        border: 1px var(--c5) solid;
     }
 }
 
-.hoverable{
-    transition: color 0.2 ease;
+.hoverAble{
+    transition: color 0.3s ease;
 }
 
 .hoverAble:hover{
@@ -42,7 +46,26 @@ li{
     width: 80%;
     height: auto;
 
-    margin: 10%;
+    margin: 10% 10% 0;
+}
+
+#menu_buttons{
+    border: 1px solid var(--c1);
+    
+    width: 80%;
+    margin: 0 10% 10%;
+
+    button{
+        width: 100%;
+        padding: 0.2em 0;
+
+        overflow-x: hidden;
+
+        text-shadow: var(--c2) 1px 0;
+        background-color: var(--c3);
+
+        cursor: pointer;
+    }
 }
 
 #prompts{
@@ -57,9 +80,15 @@ li{
     margin: 5%;
 
     text-shadow: var(--c2) 1px 0;
+
+    background-color: var(--c3);
+
+    ul{
+        background-color: var(--c3);
+    }
 }
 
-#title_line{
+hr{
     border-color: var(--c1);
 }
 
@@ -71,18 +100,25 @@ li{
 .grid{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr;
-
 }
 
 .grid_one{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1 / span 2;
 }
 
 .grid_two{
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 1 / span 2;
+}
+
+.grid_three{
+    grid-column: 1;
+    grid-row: 2;
 }
 
 ::-webkit-scrollbar{

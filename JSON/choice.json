@@ -1,7 +1,7 @@
 {    
     "a1":{
-        "choice1": {"type": "text", "text": "I'm not telling you."},
-        "choice2": {"type": "write", "text": "My name is..."}
+        "choice1": {"type": "write", "text": "My name is..."},
+        "choice2": {"type": "text", "text": "I'm not telling you."}
     },
 
     "a2":{
