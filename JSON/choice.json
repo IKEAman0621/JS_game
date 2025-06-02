@@ -1,0 +1,31 @@
+{    
+    "a1":{
+        "choice1": {"type": "text", "text": "I'm not telling you."},
+        "choice2": {"type": "write", "text": "My name is..."}
+    },
+
+    "a2":{
+        "choice1": {"type": "", "text": ""},
+        "choice2": {"type": "", "text": ""}
+    },
+
+    "a3":{
+        "choice1": {"type": "", "text": ""},
+        "choice2": {"type": "", "text": ""}
+    },
+
+    "a4":{
+        "choice1": {"type": "", "text": ""},
+        "choice2": {"type": "", "text": ""}
+    },
+
+    "a5":{
+        "choice1": {"type": "", "text": ""},
+        "choice2": {"type": "", "text": ""}
+    },
+
+    "a6":{
+        "choice1": {"type": "", "text": ""},
+        "choice2": {"type": "", "text": ""}
+    }
+}
