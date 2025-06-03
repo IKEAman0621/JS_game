@@ -4,37 +4,105 @@
 
 class Game{
 
+    //This will check the menu.
+    static check_menu(){
+
+    }
+
+    //Create the game object
     constructor(){
         this.difficulty;
         this.player = new Player(this);
         this.world = new World(this);
 
+        this.scene = "start";
+
+        //start the Canvas and make sure it works propperly
         Canvas.initialize_canvas();
     }
 
-    start(){
+    //This function takes the consequence of an action and translates it from a string to a function.
+    async consequence_handler(consequence){
+        Text.clear_ui();
+
+        switch (consequence){
+            case "start":
+                this.scene = "a1";
+                console.log("consequence handler ran");
+                await this.game_loop();
+            break;
+
+            case "tutorial":
+                this.scene = "tutorial";
+                await this.game_loop();
+            break;
         
-        Text.get_prompt("a1").then(result =>{
-            console.log(result); // ["Prompt 1 text...", "Prompt 2 text..."]
+            case "":
+            break;
+        
+            case "":
+            break;
+            
+            case "":
+            break;
+        
+            case "":
+            break;
+        
+            case "":
+            break;
+        }
+    }
 
-            Text.write(result[0], result[1]);
-        });
+    //This function takes a name for a specific scene and writes both prompts aswell as the choices and binds the consequences to whatever they should be binded to.
+    async write_everything(name){
+        const write_prompt = async (name) => {
+            const result = await Text.get_prompt(name);
+            console.log(result);
+            await Text.write(result[0], result[1]); // Wait for typeWriter
+        }
 
-        Text.get_choices('a1').then(result => {
-            console.log(result[1]);
+        const write_choice = async (name) => {
+            const result = await Text.get_choices(name);
+            const result1 = await Text.get_consequences(name);
 
             for (let i = 0; i < result.length; i++){
-                Text.add_choice(result[i].text, result[i].type)
+                console.log(result[i], result1[i], i);
+                Text.add_choice(result[i].text, result[i].type, result1[i], this);
             }
-        })
+        }
 
+        await write_prompt(name); // Order matters
+        await write_choice(name);
+    }
+
+    //This is the first function called after the game object has been created.
+    start(){
+        this.write_everything(this.scene);
+
+        
+    }
+
+    //This is the main "loop" that will be used to write each scene after the first.
+    async game_loop(){
+        console.log("gameloop ran");
+        await this.write_everything(this.scene);
     }
 }
 //==============================================
 //                  Player
 //==============================================
 
+//This is the player class which will have the players key attributes aswell as a few helper functions.
 class Player{
+
+    static check_inventory(){
+
+    }
+
+    static check_character(){
+
+    }
 
     constructor(game){
         this.name = "";
@@ -46,13 +114,12 @@ class Player{
         this.inventory = new Inventory(this);
     }
 
-
-
     get_strength(){
 
     }
 }
 
+//This is where the players items will be stored.
 class Inventory{
 
     constructor(player){
@@ -69,6 +136,7 @@ class Inventory{
     }
 }
 
+//this class will be used to represent each specific item type, with all that entails.
 class Item{
 
     static sizeList = [];
@@ -83,23 +151,20 @@ class Item{
     }
 }
 
-class Reputation{
-
-    constructor(player){
-
-    }
-}
-
 //==============================================
 //                  Content
 //==============================================
 
+//this class mainly holds NPC's and monsters, and allows for their creation.
 class World{
 
     constructor(game){
-        this.encounters = [];
+        this.npc_list = [];
+        this.monster_list = [];
     }
 
+    //This function creates an encounter, and has three modes: random, monster, and npc.
+    //This can then be used to either make an already decided NPC/monster or it could be used to create a random one.
     createEncounter(generation="random", name = null, type = null){
         switch (generation){
             case "random":
@@ -117,16 +182,30 @@ class World{
     }
 }
 
-class Encounter{
-
-    constructor(zone){
-        this.type = "";
-    }
-}
-
+//This class is to create NPC's. It holds their name, temperament, type, and a few other attriubtes.
 class Npc{
 
-    constructor(encounter, name = null, type = null){
+    static get_npcs(name){
+        return fetch('JSON/npcs.json')
+        .then(response => response.json())
+        .then(npcs => {
+
+            const npcData = npcs[name];
+
+            if(!npcData) {
+                throw new Error(`npc "${name}" not found`);
+            }
+
+            return [npcData.name, npcData.type, npcData.temperament];
+        })
+
+        .catch(error =>{
+            console.error('Error loading JSON:', error);
+            return null;
+        })
+    }
+
+    constructor(world, name = null, type = null){
         if (!name){
             this.name = ""; //Make random name generator.
         }
@@ -140,8 +219,6 @@ class Npc{
         this.level = 1;
         this.strength = 1;
         this.Reputation = this.get_reputation(this.temperament, "startingReputation")
-        
-        this.inventory = new Inventory(this);
     }
 
 
@@ -185,18 +262,20 @@ class Npc{
         });
     }
 
-    create_name(){
+    //This will later be used to create unique names for each NPC.
+    create_random_name(){
         let firstNameList = [];
         let lastNameList = [];
         let nicknameList = [];
 
-        //randomly generate from here.
+        //randomly generate name from here.
     }
 }
 
+//This class is for all hostile encounters the player'll face.
 class Monster{
 
-    constructor(encounter, type = null){
+    constructor(world, type = null){
         if(!type){
             this.type = "";
         }
@@ -207,6 +286,7 @@ class Monster{
 //                  Graphics
 //==============================================
 
+//this class is responsible for the canvas, and makes sure it works as intended.
 class Canvas{
 
     static lastFrameTime = 0;
@@ -223,6 +303,7 @@ class Canvas{
         "start_screen2": "source/start_screen2.png"
     };
 
+    //This function makes sure that all images are loaded, and sets the size of the canvas.
     static initialize_canvas(){
         Canvas.canvas.width = 48;
         Canvas.canvas.height = 64;
@@ -237,6 +318,7 @@ class Canvas{
         imagePromise.then(() => Canvas.canvas_draw("fire"));
     }
 
+    //This function loads images so that the above function can check that they indeed are loaded.
     static preload_images(sources, callback) {
     let loadedImages = 0;
     let totalImages = Object.keys(sources).length;
@@ -254,6 +336,7 @@ class Canvas{
         }
     }
 
+    //This function directly draws in an image onto the canvas based on a state argument passed into it.
     static canvas_draw(state){
         switch (state){
             case "fire":
@@ -263,6 +346,7 @@ class Canvas{
         }
     }
 
+    //This function creates a small animation for the canvas.
     static animation(timestamp){
         if (timestamp - Canvas.lastFrameTime >= Canvas.frameDelay){
             Canvas.ctx.clearRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
@@ -285,14 +369,19 @@ class Canvas{
     }
 }
 
+//This class is responsible for keeping track of all text, textelements and event-listeners.
 class Text {
     static prompt1 = document.getElementById("prompt1");
     static prompt2 = document.getElementById("prompt2");
 
     static choices = document.getElementById("choices");
 
-    static add_choice(text = "", type = "text", consequence = null,) {
+    //This function adds a choice to the UI, and can either feature text, or a writing prompt.
+    //The function also adds an eventlistener to each choice.
+    static add_choice(text = "", type = "text", consequence, game) {
         const choice = document.createElement("li");
+
+        console.log(game);
 
         switch (type){
             case "text":
@@ -300,7 +389,8 @@ class Text {
                 choice.classList.add("hoverAble")
 
                 choice.addEventListener("click", () => {
-
+                    console.log("choice was clicked");
+                        game.consequence_handler(consequence);
                 });
             break;
             
@@ -314,7 +404,7 @@ class Text {
                 choice.addEventListener("keydown", (event) => {
 
                     if (event.key === "Enter") {
-
+                        
                     }
                 });
             break;
@@ -323,14 +413,11 @@ class Text {
         Text.choices.appendChild(choice);
     }
 
-    static removeLastItem(){
-        if (Text.choices.lastElementChild) {
-            Text.choices.removeChild(Text.choices.lastElementChild);
-        }
-    }
-
+    //This function simply writes with a typewriter-like animation, and it does both prompts with the same function.
     static async write(text1, text2){
         await typeWriter(text1, prompt1);
+        
+        if (text2)
         typeWriter(text2, prompt2);
 
         function typeWriter(text, textElement, delay = 40) {
@@ -362,6 +449,15 @@ class Text {
         }
     }
 
+    //This function clears the UI when necessary.
+    static clear_ui(){
+        Text.prompt1.innerHTML = "";
+        Text.prompt2.innerHTML = "";
+
+        Text.choices.innerHTML = "";
+    }
+
+    //These following functions get prompts, choices and consequences from a JSON file.
     static get_prompt(name) {
         return fetch('JSON/prompt.json')
         .then(response => response.json())
@@ -427,6 +523,7 @@ class Text {
 //                  Utility
 //==============================================
 
+//This is simply a random integer function, as JS doesn't naturally have one.
 function randInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -435,7 +532,6 @@ function randInt(min, max){
 //                  Starting code
 //==============================================
 
-
-
+//This starts the game off.
 let game = new Game();
 game.start();

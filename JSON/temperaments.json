@@ -4,7 +4,7 @@
     "startingReputation": 5,
     "reputationGainModifier": 1.5,
     "reputationLossModifier": 0.5,
-    "notes": "Gains rep quickly, but forgives easily"
+    "notes": "Gains rep quickly, and forgives easily"
   },
   {
     "name": "Skeptical",

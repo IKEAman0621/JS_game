@@ -1,6 +1,11 @@
 {
+    "start":{
+        "consequence1": "start",
+        "consequence2": "tutorial"
+    },
+    
     "a1":{
-        "consequence1": {},
-        "consequence2": {}
+        "consequence1": "",
+        "consequence2": ""
     }
 }

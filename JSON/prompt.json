@@ -1,8 +1,18 @@
 {
+    "start": {
+        "prompt1": "MERCHANUM"
+    },
+
+    "tutorial": {
+        "prompt1": "This is MERCHANUM, a text based game about meeting people and fending off enemies. The game mechanics are quite simple. You will be given a prompt and a few options to choose between. These options then impact your standing with different NPC's and what outcomes you can expect from interactions.",
+
+        "prompt2": "You will also have access to your characters info, inventory and current status on the three buttons to the left. Good luck and have fun."
+    },
+    
     "a1": {
         "prompt1": "The darkness is closing in. The cold night air gnaws at your soul. The small fire beside you offers the only warmth and light. The ruin around you managed to withstand the \"scourge\" that wiped out humanity. You never really understood exactly what happened, but you survived. One of the few... As you were part of the now greatly diminished military force, you were quickly assigned to guard a post. Your training was supposed to matter... Right?",
 
-        "prompt2": "Across from you a fellow soldier sits in wait, warmed by the fire—one of the last, like you. You don't know them—they don't know you. They glance at you. \"So... who are you exactly?\""
+        "prompt2": "Across from you a fellow soldier sits in wait, warmed by the fire—one of the last, like you. You don't know them—they don't know you. They glance at you and say: \"So... who are you exactly?\""
     },
 
     "a2":{

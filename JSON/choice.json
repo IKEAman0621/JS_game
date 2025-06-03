@@ -1,4 +1,9 @@
 {    
+    "start":{
+        "choice1": {"type": "text", "text": "start"},
+        "choice2": {"type": "text", "text": "tutorial"}
+    },
+
     "a1":{
         "choice1": {"type": "write", "text": "My name is..."},
         "choice2": {"type": "text", "text": "I'm not telling you."}
