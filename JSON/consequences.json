@@ -4,8 +4,12 @@
         "consequence2": "tutorial"
     },
     
+    "tutorial":{
+        "consequence1": "title"
+    },
+
     "a1":{
-        "consequence1": "",
-        "consequence2": ""
+        "consequence1": "save/name",
+        "consequence2": "rep/-1"
     }
 }

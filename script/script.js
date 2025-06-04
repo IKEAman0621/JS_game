@@ -25,7 +25,9 @@ class Game{
     async consequence_handler(consequence){
         Text.clear_ui();
 
-        switch (consequence){
+        let temp = consequence.split("/")
+
+        switch (temp[0]){
             case "start":
                 this.scene = "a1";
                 console.log("consequence handler ran");
@@ -37,7 +39,9 @@ class Game{
                 await this.game_loop();
             break;
         
-            case "":
+            case "title":
+                this.scene = "start";
+                await this.game_loop();
             break;
         
             case "":
@@ -46,10 +50,12 @@ class Game{
             case "":
             break;
         
-            case "":
+            case "save":
+
             break;
         
-            case "":
+            case "rep":
+                
             break;
         }
     }
@@ -161,6 +167,8 @@ class World{
     constructor(game){
         this.npc_list = [];
         this.monster_list = [];
+
+        this.current_npc = "";
     }
 
     //This function creates an encounter, and has three modes: random, monster, and npc.
@@ -205,16 +213,18 @@ class Npc{
         })
     }
 
-    constructor(world, name = null, type = null){
+    constructor(world, name = null, type = null, temperament = null){
+        this.name = this.create_random_name(); //Make random name generator.
         if (!name){
-            this.name = ""; //Make random name generator.
         }
         
         if (!type){
             this.type = ""; //Make some Npc types, e.g merchants, warriors, refugees, etc.
         }
 
-        this.temperament = ""; //How fast/slow the player loses/gains rep.
+        if (!temperament){
+            this.temperament = ""; //How fast/slow the player loses/gains rep.
+        }
         
         this.level = 1;
         this.strength = 1;
@@ -264,11 +274,53 @@ class Npc{
 
     //This will later be used to create unique names for each NPC.
     create_random_name(){
-        let firstNameList = [];
-        let lastNameList = [];
-        let nicknameList = [];
+        let bool = true;
 
+        let firstName = "";
+        let firstHalfLastName = "";
+        let lastHalfLastName = "";
+        let nickname = "";
+
+        let name = "";
+        
+        //30
+        let firstNameList = [
+            "Emil", "Nora", "Lukas", "Mikkel", "Astrid", "Elias", "Liv", "Oliver", "Thea", "Sander", "Ingrid", "Felix", "Sara", "Jakob", "Ronja", "Erik", "Freja", "Malte", "Elin", "Johan", "Klara", "Ludvig", "Maja", "Simon", "Ida", "Aron", "Sofie", "Henrik", "Lena", "Tobias"
+        ];
+        
+        //10 (both)
+        let firstHalfLastNameList = [
+            "Berg", "Lind", "Holm", "Norr", "Vinter", "Eke", "Storm", "Sand", "Haug", "Elv"
+        ];
+        let lastHalfLastNameList = [
+            "gren", "dal", "mark", "søn", "stad", "heim", "skog", "vik", "land", ""
+        ];
+
+        //40
+        let nicknameList = [
+            "The Quiet", "Rusty", "Black Kari", "Grin", "Knuckles", "Stitches", "Softfoot", "Hollow", "The Echo", "Frosty",
+            "Blind Henning", "Grease", "One-Hand", "Gray Boy", "The Tall", "Sparky", "Mute", "Little Bear", "The Rat", "Cinder",
+            "Loaf", "Drift", "Odd", "Cold Klara", "Nails", "Tinman", "Shy", "Scrape", "Bente the Red", "Long Walk",
+            "Hatch", "Flicker", "Bruise", "Iron Son", "Grub", "Slips", "Moss", "Soot", "Latch", "Bone Boy"
+        ];
+        
         //randomly generate name from here.
+        function randomize(){
+            firstName = firstNameList[randInt(1, firstNameList.length)-1];
+            firstHalfLastName = randInt(1, firstHalfLastNameList.length)-1;
+            lastHalfLastName = randInt(1, lastHalfLastNameList.length)-1;
+            nickname = randInt(1, nicknameList.length)-1;
+
+            return firstName + " " + firstHalfLastName + lastHalfLastName + " " + nickname;
+        }
+        
+        do{
+            name = randomize();
+
+
+            
+        }while(bool)
+
     }
 }
 
@@ -418,7 +470,7 @@ class Text {
         await typeWriter(text1, prompt1);
         
         if (text2)
-        typeWriter(text2, prompt2);
+        await typeWriter(text2, prompt2);
 
         function typeWriter(text, textElement, delay = 40) {
             return new Promise((resolve) => {

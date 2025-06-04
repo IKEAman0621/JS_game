@@ -4,6 +4,10 @@
         "choice2": {"type": "text", "text": "tutorial"}
     },
 
+    "tutorial":{
+        "choice1": {"type": "text", "text": "Return to start"}
+    },
+
     "a1":{
         "choice1": {"type": "write", "text": "My name is..."},
         "choice2": {"type": "text", "text": "I'm not telling you."}
