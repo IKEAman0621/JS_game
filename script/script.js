@@ -274,7 +274,6 @@ class Npc{
 
     //This will later be used to create unique names for each NPC.
     create_random_name(){
-        let bool = true;
 
         let firstName = "";
         let firstHalfLastName = "";
@@ -307,11 +306,20 @@ class Npc{
         //randomly generate name from here.
         function randomize(){
             firstName = firstNameList[randInt(1, firstNameList.length)-1];
-            firstHalfLastName = randInt(1, firstHalfLastNameList.length)-1;
-            lastHalfLastName = randInt(1, lastHalfLastNameList.length)-1;
-            nickname = randInt(1, nicknameList.length)-1;
+            firstHalfLastName = firstHalfLastName[randInt(1, firstHalfLastNameList.length)-1];
+            lastHalfLastName = lastHalfLastName[randInt(1, lastHalfLastNameList.length)-1];
+            nickname = nickname[randInt(1, nicknameList.length)-1];
 
             return firstName + " " + firstHalfLastName + lastHalfLastName + " " + nickname;
+        }
+
+        function check(world, name){
+            for (let i = 0; i < world.npc_list.length-1; i++){
+                if (world.npc_list[i] == name)
+                    return true
+            }
+            
+            return false;
         }
         
         do{
@@ -319,8 +327,9 @@ class Npc{
 
 
             
-        }while(bool)
+        }while(check(world, name))
 
+        return name;
     }
 }
 
