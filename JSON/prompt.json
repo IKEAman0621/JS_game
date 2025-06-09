@@ -10,19 +10,26 @@
     },
     
     "a1": {
-        "prompt1": "The darkness is closing in. The cold night air gnaws at your soul. The small fire beside you offers the only warmth and light. The ruin around you managed to withstand the \"scourge\" that wiped out humanity. You never really understood exactly what happened, but you survived. One of the few... As you were part of the now greatly diminished military force, you were quickly assigned to guard a post. Your training was supposed to matter... Right?",
+        "prompt1": "The darkness is closing in. The cold night air bites at your fingers. Only the small fire beside you offers warmth and light. The ruin around you still stands, having live through the \"scourge\" that wiped out humanity. You never really understood exactly what happened, but you survived. One of the few... As you were part of the now greatly diminished military force, you were quickly assigned to guard a post. Your training is supposed to make you well suited for this task, right?",
 
         "prompt2": "Across from you a fellow soldier sits in wait, warmed by the fire—one of the last, like you. You don't know them—they don't know you. They glance at you and say: \"So... who are you exactly?\""
     },
 
-    "a2":{
-        "prompt1": "",
-        "prompt2": ""
+    "a2a":{
+        "prompt1": "\"Lovely to meet you [name], my name's Adrian.\" As the fire crackles and sparks, the other soldier, Adrian, observes you keenly. \"I thought all compassion was lost long ago, but here you are, living proof of the opposite.\" He lets out a brief chuckle, then continues: \"Anyways I've got to go, other outposts and people need the well trained.\"",
+
+        "prompt2": "He stands up, gives you a quick glance. \"I'll be back again to join you by your fire, it's only a matter of time.\" With those words Adrian steps away from the warm comfort of the fire and into the frigid dark."
+    },
+
+    "a2b":{
+        "prompt1": "\"Not the type to exchange pleasantries, huh? The name's Adrian anyhow... I've got to run, other places need my help, and I won't let the world die while I watch.\" He stands, glancing from the fire to you. \"Look, I know the scourge got to us both, but try to get past it, try and trust people again. It's better for everyone, no?\"",
+
+        "prompt2": "The soldier then turns around, walks a couple steps away from the warmth and light, stops and looks at you one last time. \"I'll be back, in time, for one reason or another. Good luck with the guarding duty.\" Then he turns around and leaves."
     },
 
     "a3":{
-     "prompt1": "",
-     "prompt2": ""
+        "prompt1": "",
+        "prompt2": ""
     },
 
     "a4":{
@@ -31,11 +38,6 @@
     },
 
     "a5":{
-        "prompt1": "",
-        "prompt2": ""
-    },
-
-    "a6":{
         "prompt1": "",
         "prompt2": ""
     }

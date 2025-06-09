@@ -1,15 +1,15 @@
 {
     "start":{
-        "consequence1": "start",
-        "consequence2": "tutorial"
+        "consequence1": "scene/a1",
+        "consequence2": "scene/tutorial"
     },
     
     "tutorial":{
-        "consequence1": "title"
+        "consequence1": "scene/start"
     },
 
     "a1":{
-        "consequence1": "save/name",
-        "consequence2": "rep/-1"
+        "consequence1": "save/name/a2a",
+        "consequence2": "rep/-1/a2b"
     }
 }

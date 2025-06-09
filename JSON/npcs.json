@@ -1,7 +1,8 @@
 {
-    "a1":{
+    "a":{
         "name": "Adrian",
         "type": "warrior",
-        "temperament": "Forgiving"
+        "temperament": "Forgiving",
+        "level": 10
     }
 }

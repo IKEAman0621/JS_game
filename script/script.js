@@ -22,45 +22,72 @@ class Game{
     }
 
     //This function takes the consequence of an action and translates it from a string to a function.
-    async consequence_handler(consequence){
+    async consequence_handler(consequence, input = null){
         Text.clear_ui();
 
-        let temp = consequence.split("/")
+        let temp = consequence.split("/");
+        console.log(temp);
 
         switch (temp[0]){
-            case "start":
-                this.scene = "a1";
-                console.log("consequence handler ran");
-                await this.game_loop();
-            break;
+            case "scene":
+                if (!temp[1]){
+                    throw new Error("Temp[1] is needed");
+                }
 
-            case "tutorial":
-                this.scene = "tutorial";
-                await this.game_loop();
-            break;
-        
-            case "title":
-                this.scene = "start";
-                await this.game_loop();
-            break;
-        
-            case "":
-            break;
-            
-            case "":
+                this.scene = temp[1];
             break;
         
             case "save":
+                if (!input){
+                    throw new Error("Input is needed");
+                }
 
+                if (!temp[1]){
+                    throw new Error("Temp[1] is needed");
+                }
+
+                if (!temp[2]){
+                    throw new Error("Temp[2] is needed");
+                }
+
+                switch (temp[1]){
+                    case "name":
+                        this.player.name = input;
+                    break;
+
+                    case "type":
+
+                    break;
+                }
+
+                this.scene = temp[2];
             break;
         
             case "rep":
-                
+                if (!temp[1]){
+                    throw new Error("Temp[1] is needed");
+                }
+
+                if (!temp[2]){
+                    throw new Error("Temp[2] is needed");
+                }
+
+                let gain = parseInt(temp[1]);
+                let modifier = this.world.npc.get_reputation(this.world.current_npc.temperament, (gain < 0)? "reputationLossModifier": "reputationGainModifier");
+                this.world.current_npc.reputation += gain * modifier;
+
+                this.scene = temp[2];
+            break;
+
+            default:
+                console.log("you fucked something up check: " + temp[0] + "for misspellings.")
             break;
         }
+
+        await this.game_loop();
     }
 
-    //This function takes a name for a specific scene and writes both prompts aswell as the choices and binds the consequences to whatever they should be binded to.
+    //This function takes a name for a specific scene and writes both prompts aswell as the choices and binds the consequences to whatever they should be bound to.
     async write_everything(name){
         const write_prompt = async (name) => {
             const result = await Text.get_prompt(name);
@@ -168,7 +195,7 @@ class World{
         this.npc_list = [];
         this.monster_list = [];
 
-        this.current_npc = "";
+        this.current_npc;
     }
 
     //This function creates an encounter, and has three modes: random, monster, and npc.
@@ -193,6 +220,8 @@ class World{
 //This class is to create NPC's. It holds their name, temperament, type, and a few other attriubtes.
 class Npc{
 
+
+    //this function returns an npc (it has to be pre-built), it just needs a name.
     static get_npcs(name){
         return fetch('JSON/npcs.json')
         .then(response => response.json())
@@ -204,7 +233,7 @@ class Npc{
                 throw new Error(`npc "${name}" not found`);
             }
 
-            return [npcData.name, npcData.type, npcData.temperament];
+            return [npcData.name, npcData.type, npcData.temperament, npcData.level];
         })
 
         .catch(error =>{
@@ -213,7 +242,7 @@ class Npc{
         })
     }
 
-    constructor(world, name = null, type = null, temperament = null){
+    constructor(world, name = null, type = null, temperament = null, level=1){
         this.name = this.create_random_name(); //Make random name generator.
         if (!name){
         }
@@ -226,7 +255,7 @@ class Npc{
             this.temperament = ""; //How fast/slow the player loses/gains rep.
         }
         
-        this.level = 1;
+        this.level = level;
         this.strength = 1;
         this.Reputation = this.get_reputation(this.temperament, "startingReputation")
     }
@@ -273,6 +302,7 @@ class Npc{
     }
 
     //This will later be used to create unique names for each NPC.
+    //Not done yet.
     create_random_name(){
 
         let firstName = "";
@@ -465,7 +495,7 @@ class Text {
                 choice.addEventListener("keydown", (event) => {
 
                     if (event.key === "Enter") {
-                        
+                        game.consequence_handler(consequence, input.value);
                     }
                 });
             break;
