@@ -241,7 +241,7 @@ class World{
 
     //This function creates an encounter, and has three modes: random, monster, and npc.
     //This can then be used to either make an already decided NPC/monster or it could be used to create a random one.
-    createEncounter(generation="random", name = null, type = null){
+    createEncounter(generation="random", type = null, name = null){
         switch (generation){
             case "random":
                 //randomly select what type
