@@ -13,14 +13,12 @@
         "choice2": {"type": "text", "text": "I'm not telling you."}
     },
 
-    "a2":{
-        "choice1": {"type": "", "text": ""},
-        "choice2": {"type": "", "text": ""}
+    "a2a":{
+        "choice1": {"type": "text", "text": "Wait..."}
     },
 
-    "a3":{
-        "choice1": {"type": "", "text": ""},
-        "choice2": {"type": "", "text": ""}
+    "a2b":{
+        "choice1": {"type": "text", "text": "Wait..."}
     },
 
     "a4":{

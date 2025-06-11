@@ -11,5 +11,13 @@
     "a1":{
         "consequence1": "save/name/a2a",
         "consequence2": "rep/-1/a2b"
+    },
+
+    "a2a":{
+        "consequence1": "scene/r"
+    },
+
+    "a2b": {
+        "consequence1": "scene/r"
     }
 }

@@ -34,7 +34,17 @@ class Game{
                     throw new Error("Temp[1] is needed");
                 }
 
-                this.scene = temp[1];
+                if (temp[1] == "r"){
+                    this.world.current_npc = "";
+
+                    if (randInt(1, 16) > this.world.npc_list.length){
+                        this.world.createEncounter()
+                    }
+                }
+                else{
+                    this.scene = temp[1];
+                }
+
             break;
         
             case "save":
@@ -89,8 +99,20 @@ class Game{
 
     //This function takes a name for a specific scene and writes both prompts aswell as the choices and binds the consequences to whatever they should be bound to.
     async write_everything(name){
+
+        const replace_all = (string, player) => {
+            string = string.replace("[name]", player.name);
+            string = string.replace("[]", "");
+
+            return string
+        }
+
         const write_prompt = async (name) => {
             const result = await Text.get_prompt(name);
+            
+            result[0] = replace_all(result[0], this.player);
+            (result[1])? result[1] = replace_all(result[1], this.player):null;
+            
             console.log(result);
             await Text.write(result[0], result[1]); // Wait for typeWriter
         }
@@ -99,7 +121,16 @@ class Game{
             const result = await Text.get_choices(name);
             const result1 = await Text.get_consequences(name);
 
-            for (let i = 0; i < result.length; i++){
+            if (result.length != result1.length){
+                throw new Error("Missing consequences or choices, fix it at: " + name);
+            }
+
+            console.log(result.length);
+
+            for (let i = 0; i <= result.length-1; i++){
+                console.log(result[i]);
+                result[i].text = replace_all(result[i].text, this.player);
+                
                 console.log(result[i], result1[i], i);
                 Text.add_choice(result[i].text, result[i].type, result1[i], this);
             }
@@ -172,7 +203,17 @@ class Inventory{
 //this class will be used to represent each specific item type, with all that entails.
 class Item{
 
-    static sizeList = [];
+    static item_list = [
+        {
+            name: "bullet",
+            weight: 0.5
+        },
+
+        {
+            name: "ration",
+            weight: 2.0
+        }
+    ];
 
     constructor(inventory, type){
         this.type = type;
@@ -220,9 +261,8 @@ class World{
 //This class is to create NPC's. It holds their name, temperament, type, and a few other attriubtes.
 class Npc{
 
-
-    //this function returns an npc (it has to be pre-built), it just needs a name.
-    static get_npcs(name){
+    //this function returns an npc from npcs.json (it has to be pre-built), it just needs a name.
+    static create_npc(world, name){
         return fetch('JSON/npcs.json')
         .then(response => response.json())
         .then(npcs => {
@@ -233,7 +273,7 @@ class Npc{
                 throw new Error(`npc "${name}" not found`);
             }
 
-            return [npcData.name, npcData.type, npcData.temperament, npcData.level];
+            return new Npc(world, npcData.name, npcData.type, npcData.temperament, npcData.level);
         })
 
         .catch(error =>{
@@ -472,8 +512,6 @@ class Text {
     static add_choice(text = "", type = "text", consequence, game) {
         const choice = document.createElement("li");
 
-        console.log(game);
-
         switch (type){
             case "text":
                 choice.innerHTML = text;
@@ -580,7 +618,7 @@ class Text {
                 throw new Error(`Choice "${name}" not found`);
             }
 
-            return [choiceData.choice1, choiceData.choice2];
+            return [choiceData.choice1, choiceData.choice2].filter(Boolean);
         })
 
         .catch(error => {
@@ -600,7 +638,7 @@ class Text {
                 throw new Error(`Consequence "${name}" not found`);
             }
 
-            return [consequenceData.consequence1, consequenceData.consequence2];
+            return [consequenceData.consequence1, consequenceData.consequence2].filter(Boolean);
         })
 
         .catch(error =>{
