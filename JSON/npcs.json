@@ -1,8 +1,19 @@
 {
-    "a":{
-        "name": "Adrian",
-        "type": "warrior",
-        "temperament": "Forgiving",
-        "level": 10
+    "npcs": {
+        "1":{
+            "name": "Adrian",
+            "type": "warrior",
+            "temperament": "Forgiving",
+            "level": 10,
+            "root": "a"
+        },
+
+        "2": {
+            "name": "",
+            "type": "",
+            "temperament": "",
+            "level": 0,
+            "root": ""
+        }
     }
 }
