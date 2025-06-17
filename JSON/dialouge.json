@@ -1,15 +1,49 @@
 {
-    "a": {
-        "a1":{
+    "start":{
+        "1": {
+            "prompt1": "",
+            "prompt2": "",
 
-        },
+            "choice1": "",
+            "choice2": "",
 
-        "a2": {
-
-        },
-
-        "a3":{
-
+            "consequence1": "",
+            "consequence2": ""
         }
+    },
+
+    "a": {
+        "1":{
+            "prompt1": "The darkness is closing in. The cold night air bites at your fingers. Only the small fire beside you offers warmth and light. The ruin around you still stands, having live through the \"scourge\" that wiped out humanity. You never really understood exactly what happened, but you survived. One of the few... As you were part of the now greatly diminished military force, you were quickly assigned to guard a post. Your training is supposed to make you well suited for this task, right?",
+            "prompt2": "Across from you a fellow soldier sits in wait, warmed by the fire—one of the last, like you. You don't know them—they don't know you. They glance at you and say: \"So... who are you exactly?\"",
+
+            "choice1": {"type": "write", "text": "My name is..."},
+            "choice2": {"type": "text", "text": "I'm not telling you."},
+
+            "consequence1": "save/name/a2a",
+            "consequence2": "rep/-1/a2b"
+        },
+
+        "2a": {
+            "prompt1": "",
+            "prompt2": "",
+
+            "choice1": "",
+            "choice2": "",
+
+            "consequence1": "",
+            "consequence2": ""
+        },
+
+        "2b":{
+            "prompt1": "",
+            "prompt2": "",
+
+            "choice1": "",
+            "choice2": "",
+
+            "consequence1": "",
+            "consequence2": ""
+        }   
     }
 }

@@ -106,51 +106,18 @@ class Game{
 
             return string
         }
-
-        const write_prompt = async (name) => {
-            const result = await Text.get_prompt(name);
-            
-            result[0] = replace_all(result[0], this.player);
-            (result[1])? result[1] = replace_all(result[1], this.player):null;
-            
-            console.log(result);
-            await Text.write(result[0], result[1]); // Wait for typeWriter
-        }
-
-        const write_choice = async (name) => {
-            const result = await Text.get_choices(name);
-            const result1 = await Text.get_consequences(name);
-
-            if (result.length != result1.length){
-                throw new Error("Missing consequences or choices, fix it at: " + name);
-            }
-
-            console.log(result.length);
-
-            for (let i = 0; i <= result.length-1; i++){
-                console.log(result[i]);
-                result[i].text = replace_all(result[i].text, this.player);
-                
-                console.log(result[i], result1[i], i);
-                Text.add_choice(result[i].text, result[i].type, result1[i], this);
-            }
-        }
-
-        await write_prompt(name); // Order matters
-        await write_choice(name);
     }
 
     //This is the first function called after the game object has been created.
     start(){
-        this.write_everything(this.scene);
 
+        Text.get_prompt("a", "1")
         
     }
 
     //This is the main "loop" that will be used to write each scene after the first.
     async game_loop(){
-        console.log("gameloop ran");
-        await this.write_everything(this.scene);
+
     }
 }
 //==============================================
@@ -587,8 +554,8 @@ class Text {
     }
 
     //These following functions get prompts, choices and consequences from a JSON file.
-    static get_prompt(name) {
-        return fetch('JSON/prompt.json')
+    static async get_prompt(root, name) {
+        /*return fetch('JSON/dialouge.json')
         .then(response => response.json())
         .then(prompts => {
 
@@ -604,11 +571,26 @@ class Text {
         .catch(error => {
         console.error('Error loading JSON:', error);
         return null;
-        });
+        });  THIS IS OLD CODE */
+
+        try {
+            const response = await fetch('JSON/dialouge.json');
+
+            if (!response.ok){
+                throw new Error("prompt not found");
+            }
+
+            const data = await response.json();
+
+            return [data[root][name].prompt1, data[root][name].prompt2];
+
+        } catch (error){
+            console.error('Error: ', error);
+        }
     }
 
-    static get_choices(name) {
-        return fetch('JSON/choice.json')
+    static async get_choices(root, name) {
+        /*return fetch('JSON/choice.json')
         .then(response => response.json())
         .then(choices => {
             
@@ -624,11 +606,26 @@ class Text {
         .catch(error => {
         console.error('Error loading JSON:', error);
         return null;
-        });
+        }); THIS IS OLD CODE */
+
+        try {
+            const response = await fetch('JSON/dialouge.json');
+
+            if (!response.ok){
+                throw new Error("choice not found");
+            }
+
+            const data = await response.json();
+
+            return [data[root][name].choice1, data[root][name].choice2].filter(Boolean);
+
+        } catch (error){
+            console.error('Error: ', error);
+        }
     }
 
-    static get_consequences(name){
-        return fetch('JSON/consequences.json')
+    static async get_consequences(root, name){
+        /*return fetch('JSON/consequences.json')
         .then(response => response.json())
         .then(consequences => {
 
@@ -644,7 +641,22 @@ class Text {
         .catch(error =>{
             console.error('Error loading JSON:', error);
             return null;
-        })
+        }) THIS IS OLD CODE */
+
+        try {
+            const response = await fetch('JSON/dialouge.json');
+
+            if (!response.ok){
+                throw new Error("consequence not found");
+            }
+
+            const data = await response.json();
+
+            return [data[root][name].consequence1, data[root][name].consequence2].filter(Boolean);
+
+        } catch (error){
+            console.error('Error: ', error);
+        }
     }
 }
 
