@@ -98,7 +98,7 @@ class Game{
     }
 
     //This function takes a name for a specific scene and writes both prompts aswell as the choices and binds the consequences to whatever they should be bound to.
-    async write_everything(name){
+    async write_everything(root, name){
 
         const replace_all = (string, player) => {
             string = string.replace("[name]", player.name);
@@ -106,12 +106,28 @@ class Game{
 
             return string
         }
+
+        let prompts = await Text.get_prompt(root, name);
+
+        let choices = await Text.get_choices(root, name);
+
+        let consequences = await Text.get_consequences(root, name);
+
+        console.log(prompts);
+        Text.write(prompts[0], prompts[1]);
+
+        console.log(choices[0].text);
+        console.log(consequences);
+
+        Text.add_choice(choices[0].text, choices[0].type, consequences[0], this);
+
     }
 
     //This is the first function called after the game object has been created.
-    start(){
+    async start(){
 
-        Text.get_prompt("a", "1")
+        console.log(await Text.get_prompt("a", "1"));
+        this.write_everything("a", "1");
         
     }
 
