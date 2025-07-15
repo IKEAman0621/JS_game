@@ -120,6 +120,8 @@ class Game{
         console.log(consequences);
 
         Text.add_choice(choices[0].text, choices[0].type, consequences[0], this);
+        Text.add_choice(choices[1].text, choices[1].type, consequences[1], this);
+
 
     }
 
